@@ -9,6 +9,7 @@ import { TmodoAuth, TroleUserApp } from "../types/modoAuth";
 import { operadorMembros, Toperadores } from "../types/operadores";
 import { Tpdv } from "../types/pdv";
 import { Tdevice, TpubProfile } from "../types/pubProfile";
+import { TsepararClube, TsepararClubeResponse } from "../types/separarClube";
 
 interface IdbStore {
   pubSelecionadoDB: TpubProfile | null;
@@ -75,6 +76,9 @@ interface IdbStore {
   cadastrarPdv: (device: Tdevice, tokem: string) => Promise<boolean>;
   deviceLocalCorrente: Tdevice | null;
   setDeviceLocalCorrente: (device: Tdevice | null) => void;
+  separarClube: (separarClube: TsepararClube) => Promise<boolean>;
+  getClubesAseparar: (pubs_id: string) => Promise<TsepararClubeResponse[] | []>;
+  definirSeparado: (id: string) => Promise<Boolean>;
 }
 const tokem = "";
 
@@ -621,6 +625,72 @@ const useDbStore = create<IdbStore>((set, get, state) => ({
   setDeviceLocalCorrente(device: Tdevice | null) {
     set({ deviceLocalCorrente: device });
   },
+  async separarClube(separarClube: TsepararClube) {
+    try {
+      const optionsFetch = {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }),
+        body: JSON.stringify({ role_user_pdv_id: separarClube.role_user_pdv_id, meus_clubes_id: separarClube.meus_clubes_id, pubs_id: separarClube.pubs_id })
+      };
+      const response = await fetch(`${API_URL}/meusclubes/separarClubPeloPdv`, optionsFetch)
+
+      const data = await response.json()
+      if (data.error) {
+        return Promise.resolve(false);
+      }
+      return Promise.resolve(true);
+    } catch (error) {
+      console.log(error);
+      return Promise.resolve(false);
+    }
+  },
+  async getClubesAseparar(pubs_id: string) {
+    try {
+      const optionsFetch = {
+        method: 'GET',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }),
+      };
+      const response = await fetch(`${API_URL}/meusclubes/getClubesAseparar/?u=${pubs_id}`)
+
+      const data = await response.json()
+      console.debug(data)
+      if (data.error) {
+        return Promise.resolve([]);
+      }
+      return Promise.resolve(data.data);
+    } catch (error) {
+      console.log(error);
+      return Promise.resolve([]);
+    }
+  },
+  async definirSeparado(id: string) {
+    try {
+      const response = await fetch(`${API_URL}/meusclubes/definirClubesSeparado`, {
+        method: "POST",
+        headers: new Headers({
+          Authorization: `Bearer ${tokem}`,
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ id: id }),
+      });
+
+
+      const data = await response.json()
+      if (data.error) {
+        return Promise.resolve(false);
+      }
+      return Promise.resolve(true);
+    } catch (error) {
+      console.log(error);
+      return Promise.resolve(false);
+    }
+  }
 }));
 
 export default useDbStore;

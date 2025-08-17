@@ -15,6 +15,7 @@ import { Tpdv } from '../../src/types/pdv';
 
 
 //import { Select } from '@/components/Select';
+import { CardClubeSeparar } from '@/src/components/cards/CardClubeSeparar';
 import { Tclubes } from '../../src/types/clubes';
 import { Tmesa } from '../../src/types/mesas';
 import useAuthStore from '../../src/zStore/AuthSore';
@@ -374,13 +375,18 @@ export default function ClubeListF2() {
                     <View>
                         <View className='flex flex-row justify-between items-center '>
                             <TouchableOpacity
+                                onPress={() => setTab("separar")}
+                                className={`w-1/3 h-[60px] flex flex-row justify-center items-center ${tab == 'separar' ? 'bg-white border-b-4' : 'bg-inherit opacity-60'}`}>
+                                <Text className='text-2xl'>Separar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
                                 onPress={() => setTab("debitar")}
-                                className={`w-1/2 h-[60px] flex flex-row justify-center items-center ${tab == 'debitar' ? 'bg-white border-b-4' : 'bg-inherit opacity-60'}`}>
+                                className={`w-1/3 h-[60px] flex flex-row justify-center items-center ${tab == 'debitar' ? 'bg-white border-b-4' : 'bg-inherit opacity-60'}`}>
                                 <Text className='text-2xl'>Debitar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => setTab("creditar")}
-                                className={`w-1/2 h-[60px] flex flex-row justify-center items-center ${tab == 'creditar' ? 'bg-white border-b-4' : 'bg-inherit opacity-60'}`}>
+                                className={`w-1/3 h-[60px] flex flex-row justify-center items-center ${tab == 'creditar' ? 'bg-white border-b-4' : 'bg-inherit opacity-60'}`}>
                                 <Text className='text-2xl'>Creditar</Text>
                             </TouchableOpacity>
                         </View>
@@ -390,6 +396,35 @@ export default function ClubeListF2() {
                         </View> */}
                     </View>
 
+                    {tab == "separar" &&
+
+                        <View className='bg-white mb-10'>
+                            <View className='w-full bg-white pt-6 pb-4'>
+                                <View className='px-6 pb-6 w-full flex flex-row justify-between items-center'>
+                                    <View className='mb-4'>
+                                        <Text className='text-lg'>Cliente</Text>
+                                        <Text className='text-3xl'>{userAppAtual.roleUserApp.user.nome}</Text>
+                                    </View>
+                                </View>
+
+                            </View>
+                            <View className='flex flex-col gap-6 px-3 py-10 bg-slate-100 rounded-3xl'>
+                                {
+                                    _meusClubes.map((n: TcardClubeDebitoProps, i: number) => (
+
+                                        <CardClubeSeparar
+                                            key={n.id}
+                                            clube={n}
+                                            press={(c: TcardClubeDebitoProps) => addDebito(c)}
+                                        />
+
+
+                                    ))
+                                }
+
+                            </View>
+                        </View>
+                    }
                     {tab == "debitar" &&
 
                         <View className='bg-white mb-10'>
