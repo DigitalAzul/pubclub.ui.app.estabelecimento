@@ -33,6 +33,19 @@ When you're ready, run:
 npm run reset-project
 ```
 
+Gerar uma compilacao local
+```bash
+eas build --platform android --local
+```
+
+Gerar um APK 
+```bash
+eas build -p android --profile preview
+```
+Java Home
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+
+
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
 ## Learn more
