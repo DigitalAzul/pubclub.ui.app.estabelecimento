@@ -137,7 +137,8 @@ export default function ClubeListF2() {
     const [adebitar, setAdebitar] = useState<TcardClubeDebitoProps[]>([])
     const [clubesOPT, setClubesOPT] = useState<TclubeCredito[]>([])
     const [acreditar, setAcreditar] = useState<TclubeCredito[]>([])
-    const [mesa, setMesa] = useState<string | number>()
+    const [mesa, setMesa] = useState<Tmesa | null>()
+    const [mesaSelect, setMesaSelect] = useState(false)
 
     const [lengthClubes, setLengthClubes] = useState(0)
 
@@ -357,7 +358,7 @@ export default function ClubeListF2() {
             params: {
                 clubes: JSON.stringify(c),
                 cliente: JSON.stringify(userAppAtual.roleUserApp),
-                mesa: mesa
+                mesa: mesa.id
             },
         })
     }
@@ -516,37 +517,40 @@ export default function ClubeListF2() {
                                             <Text className='text-lg'>Cliente</Text>
                                             <Text className='text-3xl'>{userAppAtual.roleUserApp.user.nome}</Text>
                                         </View>
+                                        <TouchableOpacity
+                                            onPress={() => setMesaSelect(!mesaSelect)}
+                                            className={`${mesa?.id ? 'border-green-500' : 'border-red-500'}
+                                         border-2
+                                        flex flex-row justify-between items-center p-2 px-3 min-w-[150px]  rounded-2xl mt-3`}>
+                                            <Text className='text-lg'>Mesa:</Text>
+                                            <View
+                                                className='p-2 px-4 ml-4 bg-slate-500 rounded-2xl'
+                                            >
+                                                <Text className='text-base text-white'>{mesa?.id ? mesa?.titulo : '---'}</Text>
+                                            </View>
+                                        </TouchableOpacity>
 
-                                        <View className='z-50'>
-
-                                            {/* <Select
-                                                label="Mesa"
-                                                placeholder="Escolha"
-                                                options={mesas ? mesas : []}
-                                                selectClasses='w-[130px]'
-                                                labelKey="titulo"
-                                                valueKey="id"
-                                                selectedValue={mesa}
-                                                onSelect={value => setMesa(value)}
-                                            /> */}
-
-
-
-                                            {/* <SelectList
-                                        setSelected={(val: string) => setSelectedCaixa(val)}
-                                        data={caixasOPT}
-                                        save="value"
-                                    /> */}
-                                            {/* <TextInput
-                                        value={mesa}
-                                        onChangeText={(text: string) => setMesa(text)}
-                                        maxLength={2}
-                                        keyboardType='number-pad'
-                                        className='border-2 border-black w-[60px] h-[40px] text-black text-xl text-center rounded-xl'
-                                    ></TextInput> */}
-
+                                    </View>
+                                    {mesaSelect &&
+                                        <View className='p-4 bg-slate-300  rounded-3xl m-3 flex flex-col gap-3'>
+                                            <Text className='text-base text-black'>Mesas Disponíveis</Text>
+                                            <View className=' flex flex-row flex-wrap gap-3'>
+                                                {mesas?.map((m) => (
+                                                    <TouchableOpacity
+                                                        key={m.id}
+                                                        onPress={() => {
+                                                            setMesa(m);
+                                                            setMesaSelect(!mesaSelect)
+                                                        }
+                                                        }
+                                                        className='p-2 px-4 bg-slate-500 rounded-2xl'
+                                                    >
+                                                        <Text className='text-base text-white'>{m.titulo}</Text>
+                                                    </TouchableOpacity>
+                                                ))}
                                         </View>
                                     </View>
+                                    }
 
                                     <View className='flex flex-row items-center mx-6 rounded-2xl border-2 bg-black h-[100px] mb-10'>
                                         <View className='w-[40%] h-full flex flex-col items-center'>

@@ -272,7 +272,7 @@ export default function Index() {
                                             <Text className='text-xl font-bold'>{c.meusClubes.titulo}</Text>
                                         </View>
                                         <View>
-                                            <Text className='text-3xl font-bold'>{c.meusClubes.doses_consumidas > 0 ? (c.meusClubes.doses_consumidas - c.meusClubes.doses) : 0}</Text>
+                                            <Text className='text-3xl font-bold'>{c.meusClubes.doses_consumidas > 0 ? (c.meusClubes.doses - c.meusClubes.doses_consumidas) : 0}</Text>
                                             <Text className='text-sm font-bold'>Doses</Text>
                                         </View>
 
