@@ -1,6 +1,6 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useEffect, useState } from "react";
-import { Text, View, Image, TextInput, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 
 
@@ -12,6 +12,7 @@ type TclubeCredito = {
         quantidade: number,
         valor: GLfloat,
         imagem: string,
+        validade: number
     },
     decrement: Function,
     increment: Function,
@@ -64,12 +65,13 @@ export function CardClubeCredito(props: TclubeCredito) {
 
 
     return (
-        <View className={`flex flex-row w-full h-[110px] items-center rounded-2xl border-2 border-black ${clube.quantidade > 0 ? 'bg-orange-100' : 'bg-white'}`}>
+        <View className={`flex flex-row w-full h-[115px] items-center rounded-2xl border-2 border-black ${clube.quantidade > 0 ? 'bg-orange-100' : 'bg-white'}`}>
 
 
             <View className="flex flex-col justify-start w-[80%] h-full">
-                <View className="w-full h-[36px] zborder-b zborder-slate-400 flex felx-col justify-around px-4">
+                <View className="w-full h-[40px] zborder-b zborder-slate-400 flex felx-col px-4">
                     <Text className="text-lg font-semibold">{clube.titulo} </Text>
+                    <Text className="text-sm text-slate-500 pb-4">Validade de {clube.validade} dias</Text>
                 </View>
 
                 <View className="w-full flex flex-row items-center">

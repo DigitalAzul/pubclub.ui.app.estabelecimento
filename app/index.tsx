@@ -66,11 +66,17 @@ export default function Index() {
 
   return (
 
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaProvider style={{ flex: 1 }}
+
+    >
+      <SafeAreaView style={{ flex: 1 }}
+
+      >
 
 
-        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+        <View
+          className="bg-white"
+          style={{ flex: 1, flexDirection: 'column', alignItems: 'center', height: '100%' }}>
 
           <View style={styles.Textos}>
             <Text style={styles.subTitulo}>Seja bem vindo ao</Text>
